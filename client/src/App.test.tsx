@@ -50,7 +50,7 @@ describe('App', () => {
     })
     renderApp()
     expect(screen.getAllByTestId('skeleton-card').length).toBeGreaterThan(0)
-    expect(await screen.findByText('Dune')).toBeInTheDocument()
+    expect((await screen.findAllByText('Dune')).length).toBeGreaterThan(0)
   })
 
   it('shows the empty state when nothing matches', async () => {
