@@ -1,3 +1,5 @@
+import { UPSTREAM_TIMEOUT_MS } from '../constants'
+
 export class UpstreamError extends Error {
   constructor(
     message: string,
@@ -8,7 +10,7 @@ export class UpstreamError extends Error {
   }
 }
 
-export async function fetchJson<T>(url: string, timeoutMs = 8_000): Promise<T> {
+export async function fetchJson<T>(url: string, timeoutMs = UPSTREAM_TIMEOUT_MS): Promise<T> {
   const host = new URL(url).host
   let response: Response
   try {

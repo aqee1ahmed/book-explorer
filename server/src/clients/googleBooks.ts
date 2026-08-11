@@ -1,7 +1,7 @@
+import { config } from '../config'
+import { VOLUME_SCAN_LIMIT } from '../constants'
 import { fetchJson } from '../lib/http'
 import type { RatingInfo } from '../types'
-
-const BASE_URL = process.env.GOOGLE_BOOKS_URL ?? 'https://www.googleapis.com/books/v1'
 
 interface VolumesResponse {
   items?: { volumeInfo?: { averageRating?: number; ratingsCount?: number } }[]
@@ -19,13 +19,12 @@ export async function getRating(isbn: string | null, title: string, author?: str
 async function queryRating(q: string): Promise<RatingInfo | null> {
   const params = new URLSearchParams({
     q,
-    maxResults: '5',
+    maxResults: String(VOLUME_SCAN_LIMIT),
     fields: 'items/volumeInfo(averageRating,ratingsCount)',
   })
-  const apiKey = process.env.GOOGLE_BOOKS_API_KEY
-  if (apiKey) params.set('key', apiKey)
+  if (config.googleBooksApiKey) params.set('key', config.googleBooksApiKey)
   try {
-    const response = await fetchJson<VolumesResponse>(`${BASE_URL}/volumes?${params}`)
+    const response = await fetchJson<VolumesResponse>(`${config.googleBooksUrl}/volumes?${params}`)
     const rated = response.items?.find((item) => item.volumeInfo?.averageRating !== undefined)
     if (rated?.volumeInfo?.averageRating === undefined) return null
     return {

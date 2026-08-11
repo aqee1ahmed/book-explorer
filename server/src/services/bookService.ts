@@ -1,13 +1,12 @@
 import { getRating } from '../clients/googleBooks'
 import { getWorkDetail, searchBooks } from '../clients/openLibrary'
-import { TtlCache } from '../lib/cache'
+import { DETAIL_CACHE_TTL_MS, ENRICHMENT_CONCURRENCY, LIST_CACHE_TTL_MS, PAGE_SIZE } from '../constants'
+import { createTtlCache } from '../lib/cache'
 import { mapWithConcurrency } from '../lib/concurrency'
 import type { BaseBook, Book, BookDetail, BookListResponse, BookQuery } from '../types'
 
-const PAGE_SIZE = 20
-const ENRICHMENT_CONCURRENCY = 5
-const listCache = new TtlCache<BookListResponse>(10 * 60_000)
-const detailCache = new TtlCache<BookDetail>(60 * 60_000)
+const listCache = createTtlCache<BookListResponse>(LIST_CACHE_TTL_MS)
+const detailCache = createTtlCache<BookDetail>(DETAIL_CACHE_TTL_MS)
 
 export async function getBooks(query: BookQuery): Promise<BookListResponse> {
   const cacheKey = JSON.stringify([query.q ?? '', query.subject ?? '', query.sort, query.page])

@@ -3,26 +3,32 @@ interface CacheEntry<T> {
   expiresAt: number
 }
 
-export class TtlCache<T> {
-  private entries = new Map<string, CacheEntry<T>>()
+export interface TtlCache<T> {
+  get: (key: string) => T | undefined
+  set: (key: string, value: T) => void
+  clear: () => void
+}
 
-  constructor(private ttlMs: number) {}
+export function createTtlCache<T>(ttlMs: number): TtlCache<T> {
+  const entries = new Map<string, CacheEntry<T>>()
 
-  get(key: string): T | undefined {
-    const entry = this.entries.get(key)
+  const get = (key: string): T | undefined => {
+    const entry = entries.get(key)
     if (!entry) return undefined
     if (Date.now() > entry.expiresAt) {
-      this.entries.delete(key)
+      entries.delete(key)
       return undefined
     }
     return entry.value
   }
 
-  set(key: string, value: T): void {
-    this.entries.set(key, { value, expiresAt: Date.now() + this.ttlMs })
+  const set = (key: string, value: T): void => {
+    entries.set(key, { value, expiresAt: Date.now() + ttlMs })
   }
 
-  clear(): void {
-    this.entries.clear()
+  const clear = (): void => {
+    entries.clear()
   }
+
+  return { get, set, clear }
 }
