@@ -38,7 +38,7 @@
 | Endpoint | Purpose |
 |---|---|
 | `GET /api/books?q=&subject=&sort=&page=` | Merged, paginated book list (~20/page) |
-| `GET /api/books/:workId` | Work detail: description, subjects, publish year |
+| `GET /api/books/:workId` | Work detail: description, subjects (publish year comes from list data) |
 | `GET /api/health` | Liveness check |
 
 Query params: `q` (free-text search), `subject` (browse category; used when `q` absent), `sort` (`relevance` \| `rating` \| `new`), `page` (1-based). No `q` and no `subject` defaults to `subject=fiction` so the landing page is never empty.
@@ -89,7 +89,7 @@ server/src/
 
 1. Cache lookup keyed by normalized query string (TTL 10 min). Hit → return.
 2. Open Library search (`search.json`) — one call returns title, authors, year, cover id, ISBNs, total count. Upstream sort passed through for `rating`/`new`.
-3. Enrich each of the ~20 results with Google Books (`volumes?q=isbn:...`, fallback `intitle:+inauthor:`) via `Promise.allSettled` with a concurrency cap of 5. Failures → `null` rating for that book only.
+3. Enrich each of the ~20 results with Google Books (`volumes?q=isbn:...`, fallback `intitle:+inauthor:`) via bounded-concurrency lookups (cap 5) with per-book failure isolation. Failures → `null` rating for that book only.
 4. Merge into the `Book` contract type; stable-sort page by displayed rating when `sort=rating` (nulls last).
 5. Cache and return.
 
@@ -149,7 +149,7 @@ Light theme only. Restrained professional palette (indigo/slate primary, off-whi
 
 ## README (part of the deliverable)
 
-Setup (`npm install && npm run dev`), architecture overview with a small diagram, key decisions with reasoning (server-side merge, TTL cache, `allSettled` degradation, state split, sort trade-off), and screenshots.
+Setup (`npm install && npm run dev`), architecture overview with a small diagram, key decisions with reasoning (server-side merge, TTL cache, per-book failure isolation, state split, sort trade-off), and screenshots.
 
 ## Out of Scope
 
