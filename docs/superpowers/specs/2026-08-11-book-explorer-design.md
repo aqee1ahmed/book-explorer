@@ -67,7 +67,7 @@ Response shape (list):
 }
 ```
 
-`averageRating`/`ratingsCount` are `null` when Google Books has no data — never fabricated zeros.
+`averageRating`, `ratingsCount`, and `ratingsSource` are `null` when Google Books has no data — never fabricated zeros.
 
 Errors: consistent `{ "error": { "message": "...", "code": "..." } }` with appropriate HTTP status. Upstream failure of Google Books degrades gracefully (books return with `null` ratings); upstream failure of Open Library returns 502.
 
