@@ -15,10 +15,10 @@ import { SkeletonGrid } from './components/SkeletonGrid'
 import { SortSelect } from './components/SortSelect'
 import { StatusMessage } from './components/StatusMessage'
 import { SubjectChips } from './components/SubjectChips'
+import { MAX_PAGES } from './constants'
 import { useBooks } from './hooks/useBooks'
 import { useFiltersStore } from './store/filtersStore'
-
-const MAX_PAGES = 100
+import { fonts } from './theme'
 
 export default function App() {
   const { data, isError, isPending, isPlaceholderData, refetch } = useBooks()
@@ -35,16 +35,42 @@ export default function App() {
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
       <AppBar
         position="sticky"
-        color="inherit"
         elevation={0}
-        sx={{ borderBottom: '1px solid #e3e8ef', bgcolor: 'background.paper' }}
+        sx={{
+          bgcolor: 'primary.main',
+          color: 'primary.contrastText',
+          borderBottom: '3px solid',
+          borderBottomColor: 'secondary.main',
+        }}
       >
-        <Toolbar sx={{ gap: 2 }}>
-          <Stack direction="row" spacing={1} sx={{ flexShrink: 0, alignItems: 'center' }}>
-            <AutoStoriesRoundedIcon color="primary" />
-            <Typography variant="h6" sx={{ display: { xs: 'none', sm: 'block' } }}>
-              Book Explorer
-            </Typography>
+        <Toolbar sx={{ gap: 2, py: 0.75 }}>
+          <Stack direction="row" spacing={1.25} sx={{ flexShrink: 0, alignItems: 'center' }}>
+            <AutoStoriesRoundedIcon sx={{ color: 'secondary.main' }} />
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+              <Typography
+                component="h1"
+                sx={{
+                  fontFamily: fonts.display,
+                  fontVariationSettings: "'WONK' 1, 'SOFT' 30",
+                  fontWeight: 600,
+                  fontSize: '1.35rem',
+                  lineHeight: 1.15,
+                }}
+              >
+                Book Explorer
+              </Typography>
+              <Typography
+                sx={{
+                  fontFamily: fonts.mono,
+                  fontSize: '0.58rem',
+                  letterSpacing: '0.22em',
+                  textTransform: 'uppercase',
+                  color: 'secondary.main',
+                }}
+              >
+                Open Library × Google Books
+              </Typography>
+            </Box>
           </Stack>
           <Box sx={{ flexGrow: 1, maxWidth: 560, mx: 'auto' }}>
             <SearchBar />

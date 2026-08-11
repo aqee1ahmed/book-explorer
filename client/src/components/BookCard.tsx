@@ -7,6 +7,8 @@ import Rating from '@mui/material/Rating'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import type { Book } from '../api/types'
+import { fonts } from '../theme'
+import { spineFor } from '../utils/spine'
 
 interface BookCardProps {
   book: Book
@@ -14,6 +16,8 @@ interface BookCardProps {
 }
 
 export function BookCard({ book, onSelect }: BookCardProps) {
+  const spine = spineFor(book.title)
+
   return (
     <Card sx={{ height: '100%' }}>
       <CardActionArea
@@ -32,15 +36,32 @@ export function BookCard({ book, onSelect }: BookCardProps) {
             sx={{
               aspectRatio: '2 / 3',
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              px: 2,
+              gap: 1.25,
+              px: 2.5,
+              py: 2,
               textAlign: 'center',
-              bgcolor: 'primary.light',
-              color: 'primary.contrastText',
+              bgcolor: spine.bg,
+              color: spine.fg,
             }}
           >
-            <Typography variant="subtitle2">{book.title}</Typography>
+            <Typography
+              sx={{
+                fontFamily: fonts.display,
+                fontWeight: 600,
+                fontSize: '1.02rem',
+                lineHeight: 1.3,
+                display: '-webkit-box',
+                WebkitLineClamp: 5,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+              }}
+            >
+              {book.title}
+            </Typography>
+            <Box sx={{ width: 32, borderTop: '2px solid', opacity: 0.7 }} />
           </Box>
         )}
         <CardContent sx={{ flexGrow: 1, width: '100%' }}>

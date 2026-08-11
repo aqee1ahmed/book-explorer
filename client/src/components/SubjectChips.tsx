@@ -1,16 +1,7 @@
 import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
+import { SUBJECTS } from '../constants'
 import { useFiltersStore } from '../store/filtersStore'
-
-const SUBJECTS = [
-  { label: 'Fiction', value: 'fiction' },
-  { label: 'Fantasy', value: 'fantasy' },
-  { label: 'Mystery', value: 'mystery' },
-  { label: 'Sci-Fi', value: 'science fiction' },
-  { label: 'History', value: 'history' },
-  { label: 'Biography', value: 'biography' },
-  { label: 'Romance', value: 'romance' },
-]
 
 export function SubjectChips() {
   const query = useFiltersStore((state) => state.query)

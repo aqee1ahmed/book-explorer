@@ -4,9 +4,8 @@ import SearchIcon from '@mui/icons-material/Search'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
+import { DEBOUNCE_MS } from '../constants'
 import { useFiltersStore } from '../store/filtersStore'
-
-const DEBOUNCE_MS = 400
 
 export function SearchBar() {
   const storeQuery = useFiltersStore((state) => state.query)
@@ -36,6 +35,7 @@ export function SearchBar() {
       size="small"
       fullWidth
       slotProps={{
+        htmlInput: { 'aria-label': 'Search books' },
         input: {
           startAdornment: (
             <InputAdornment position="start">
