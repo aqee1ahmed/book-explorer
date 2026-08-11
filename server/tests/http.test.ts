@@ -25,4 +25,11 @@ describe('fetchJson', () => {
       name: 'UpstreamError',
     })
   })
+
+  it('throws UpstreamError when ok response has invalid json body', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response('not json', { status: 200 })))
+    await expect(fetchJson('https://example.com/data')).rejects.toMatchObject({
+      name: 'UpstreamError',
+    })
+  })
 })
