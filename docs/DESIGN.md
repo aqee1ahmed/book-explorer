@@ -77,11 +77,15 @@ Errors: consistent `{ "error": { "message": "...", "code": "..." } }` with appro
 server/src/
 ├── index.ts               # bootstrap only
 ├── app.ts                 # express app factory (testable without listening)
+├── config.ts              # env access in one place (port, base URLs, API key)
+├── constants.ts           # page size, cache TTLs, concurrency, timeout
 ├── routes/books.ts        # HTTP concerns: param parsing/validation, status codes
 ├── services/bookService.ts# orchestration: fetch, enrich, merge, sort, paginate
 ├── clients/openLibrary.ts # OL search + work detail, response mapping
 ├── clients/googleBooks.ts # volume lookup by ISBN, fallback title+author
-├── lib/cache.ts           # in-memory TTL cache (Map-based, no dependency)
+├── lib/cache.ts           # in-memory TTL cache factory (closure-based, no dependency)
+├── lib/http.ts            # fetchJson with timeout + UpstreamError
+├── lib/concurrency.ts     # order-preserving bounded mapper
 └── types.ts               # API contract types
 ```
 
@@ -108,6 +112,8 @@ client/src/
 ├── main.tsx               # providers: theme, QueryClient
 ├── App.tsx                # layout: AppBar, filters, grid, pagination
 ├── theme.ts               # MUI light theme
+├── constants.ts           # subjects, sort options, debounce, pagination caps
+├── utils/spine.ts         # deterministic spine colors for coverless books
 ├── api/books.ts           # typed fetch functions
 ├── api/types.ts           # mirror of server API contract
 ├── hooks/useBooks.ts      # useQuery wrappers (list + detail)
@@ -134,7 +140,7 @@ client/src/
 
 ### Theme
 
-Light theme only. Restrained professional palette (indigo/slate primary, off-white background, subtle card elevation on hover), `borderRadius` slightly raised, system font stack or Inter. No dark mode toggle — out of scope by decision.
+Light theme only — mid-century paperback. Aged-paper surfaces (`#F2E9D5` ground, `#F9F3E4` card face), warm ink text, a Pelican-teal (`#0F5E63`) title band with a marigold (`#E9A23B`) keyline, marigold rating stars, hairline rules, and square corners. Type: Fraunces (display; the wordmark sets the WONK axis), IBM Plex Sans (UI), IBM Plex Mono (metadata: captions, chips, pagination). Books without covers render a deterministic flat-color "spine" — palette pick hashed from the title, title set in the display serif — so missing cover art reads as deliberate. No dark mode toggle — out of scope by decision.
 
 ## Testing
 

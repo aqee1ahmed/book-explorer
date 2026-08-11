@@ -24,8 +24,9 @@ npm run test
 npm run typecheck
 ```
 
-No environment variables are required. `GOOGLE_BOOKS_API_KEY` is optionally
-picked up to raise Google Books rate limits.
+No environment variables are required; `.env.example` documents the supported
+overrides. `GOOGLE_BOOKS_API_KEY` is optionally picked up to raise Google
+Books rate limits.
 
 ## Architecture
 
@@ -46,6 +47,17 @@ merges everything into one typed response, and caches it in memory for 10
 minutes. **Frontend** — TanStack Query owns all server data (caching, retries,
 previous-page placeholders); a single Zustand store owns the four pieces of
 filter state; components subscribe only to the slices they need.
+
+## Design
+
+Mid-century paperback. Aged-paper surfaces, a Pelican-teal title band with a
+marigold keyline, marigold rating stars, hairline rules, and square corners.
+Type is Fraunces for display (the wordmark sets the variable font's WONK
+axis), IBM Plex Sans for UI, and IBM Plex Mono as the metadata voice —
+captions, chips, and pagination. Books without cover art render a generated
+flat-color "spine": a deterministic palette pick hashed from the title, set in
+the display serif, so missing data looks deliberate rather than broken. The
+full design spec lives in [docs/DESIGN.md](docs/DESIGN.md).
 
 ## Key decisions
 
