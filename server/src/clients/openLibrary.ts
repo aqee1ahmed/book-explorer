@@ -2,28 +2,16 @@ import { config } from '../config'
 import { COVERS_URL, DEFAULT_SUBJECT, PAGE_SIZE, SEARCH_FIELDS } from '../constants'
 import { fetchJson } from '../lib/http'
 import { cleanDescription, cleanSubjects } from '../lib/sanitize'
-import type { BookDetail, BookQuery, RatingInfo, SearchResultBook, SortOption } from '../types'
-
-interface SearchDoc {
-  key?: string
-  title?: string
-  author_name?: string[]
-  first_publish_year?: number
-  cover_i?: number
-  isbn?: string[]
-  ratings_average?: number
-  ratings_count?: number
-}
-
-interface SearchResponse {
-  numFound: number
-  docs: SearchDoc[]
-}
-
-interface WorkResponse {
-  description?: string | { value: string }
-  subjects?: string[]
-}
+import type {
+  BookDetail,
+  BookQuery,
+  OpenLibrarySearchDoc,
+  OpenLibrarySearchResponse,
+  OpenLibraryWorkResponse,
+  RatingInfo,
+  SearchResultBook,
+  SortOption,
+} from '../types'
 
 const SORT_PARAMS: Record<SortOption, string | undefined> = {
   relevance: undefined,
@@ -42,7 +30,7 @@ export async function searchBooks(query: BookQuery): Promise<{ books: SearchResu
   const sort = SORT_PARAMS[query.sort]
   if (sort) params.set('sort', sort)
 
-  const response = await fetchJson<SearchResponse>(`${config.openLibraryUrl}/search.json?${params}`)
+  const response = await fetchJson<OpenLibrarySearchResponse>(`${config.openLibraryUrl}/search.json?${params}`)
   return {
     books: response.docs.filter(isCompleteDoc).map(toSearchResultBook),
     totalResults: response.numFound,
@@ -50,7 +38,7 @@ export async function searchBooks(query: BookQuery): Promise<{ books: SearchResu
 }
 
 export async function getWorkDetail(workId: string): Promise<BookDetail> {
-  const work = await fetchJson<WorkResponse>(`${config.openLibraryUrl}/works/${workId}.json`)
+  const work = await fetchJson<OpenLibraryWorkResponse>(`${config.openLibraryUrl}/works/${workId}.json`)
   const rawDescription = typeof work.description === 'string' ? work.description : (work.description?.value ?? null)
   return {
     id: workId,
@@ -59,11 +47,11 @@ export async function getWorkDetail(workId: string): Promise<BookDetail> {
   }
 }
 
-function isCompleteDoc(doc: SearchDoc): doc is SearchDoc & { key: string; title: string } {
+function isCompleteDoc(doc: OpenLibrarySearchDoc): doc is OpenLibrarySearchDoc & { key: string; title: string } {
   return Boolean(doc.key && doc.title)
 }
 
-function toSearchResultBook(doc: SearchDoc & { key: string; title: string }): SearchResultBook {
+function toSearchResultBook(doc: OpenLibrarySearchDoc & { key: string; title: string }): SearchResultBook {
   return {
     id: doc.key.replace('/works/', ''),
     title: doc.title,
@@ -75,7 +63,7 @@ function toSearchResultBook(doc: SearchDoc & { key: string; title: string }): Se
   }
 }
 
-function toOpenLibraryRating(doc: SearchDoc): RatingInfo | null {
+function toOpenLibraryRating(doc: OpenLibrarySearchDoc): RatingInfo | null {
   if (doc.ratings_average === undefined || !doc.ratings_count) return null
   return {
     averageRating: Math.round(doc.ratings_average * 100) / 100,

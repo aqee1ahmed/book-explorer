@@ -1,10 +1,10 @@
-import type { SortOption } from './api/types'
+import type { SortOptionItem, SubjectOption } from './types'
 
 export const DEBOUNCE_MS = 400
 export const MAX_PAGES = 100
 export const SKELETON_COUNT = 10
 
-export const SUBJECTS = [
+export const SUBJECTS: SubjectOption[] = [
   { label: 'Fiction', value: 'fiction' },
   { label: 'Fantasy', value: 'fantasy' },
   { label: 'Mystery', value: 'mystery' },
@@ -14,7 +14,7 @@ export const SUBJECTS = [
   { label: 'Romance', value: 'romance' },
 ]
 
-export const SORT_OPTIONS: { value: SortOption; label: string }[] = [
+export const SORT_OPTIONS: SortOptionItem[] = [
   { value: 'relevance', label: 'Relevance' },
   { value: 'rating', label: 'Rating' },
   { value: 'new', label: 'Newest' },

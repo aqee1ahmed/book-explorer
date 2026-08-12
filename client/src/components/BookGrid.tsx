@@ -1,11 +1,6 @@
 import Grid from '@mui/material/Grid'
-import type { Book } from '../api/types'
+import type { BookGridProps } from '../types'
 import { BookCard } from './BookCard'
-
-interface BookGridProps {
-  books: Book[]
-  onSelect: (book: Book) => void
-}
 
 export function BookGrid({ books, onSelect }: BookGridProps) {
   return (

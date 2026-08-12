@@ -12,15 +12,10 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
-import type { Book } from '../api/types'
 import { useBookDetail } from '../hooks/useBooks'
 import { fonts } from '../theme'
+import type { BookDetailDialogProps } from '../types'
 import { BookCover } from './BookCover'
-
-interface BookDetailDialogProps {
-  book: Book | null
-  onClose: () => void
-}
 
 function SectionLabel({ children }: { children: string }) {
   return (

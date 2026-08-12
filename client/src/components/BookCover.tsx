@@ -3,12 +3,8 @@ import Box from '@mui/material/Box'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 import { fonts } from '../theme'
+import type { BookCoverProps } from '../types'
 import { spineFor } from '../utils/spine'
-
-interface BookCoverProps {
-  src: string | null
-  title: string
-}
 
 export function BookCover({ src, title }: BookCoverProps) {
   const [status, setStatus] = useState<'loading' | 'ready' | 'failed'>('loading')

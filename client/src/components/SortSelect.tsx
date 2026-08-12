@@ -1,7 +1,7 @@
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
-import type { SortOption } from '../api/types'
 import { SORT_OPTIONS } from '../constants'
+import type { SortOption } from '../types'
 import { useFiltersStore } from '../store/filtersStore'
 
 export function SortSelect() {

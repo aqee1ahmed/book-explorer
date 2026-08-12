@@ -4,13 +4,8 @@ import CardContent from '@mui/material/CardContent'
 import Rating from '@mui/material/Rating'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import type { Book } from '../api/types'
+import type { BookCardProps } from '../types'
 import { BookCover } from './BookCover'
-
-interface BookCardProps {
-  book: Book
-  onSelect: (book: Book) => void
-}
 
 export function BookCard({ book, onSelect }: BookCardProps) {
   return (

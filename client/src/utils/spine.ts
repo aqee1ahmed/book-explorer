@@ -1,7 +1,4 @@
-export interface SpineColors {
-  bg: string
-  fg: string
-}
+import type { SpineColors } from '../types'
 
 const SPINE_PALETTE: SpineColors[] = [
   { bg: '#D9622B', fg: '#F9F3E4' },

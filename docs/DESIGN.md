@@ -87,7 +87,7 @@ server/src/
 ├── lib/http.ts            # fetchJson with timeout, identified User-Agent + UpstreamError
 ├── lib/sanitize.ts        # scrub markdown/spam from descriptions, normalize subjects
 ├── lib/concurrency.ts     # order-preserving bounded mapper
-└── types.ts               # API contract types
+└── types.ts               # all server types: contract, upstream shapes, cache
 ```
 
 ### Data flow per list request
@@ -114,9 +114,9 @@ client/src/
 ├── App.tsx                # layout: AppBar, filters, grid, pagination
 ├── theme.ts               # MUI light theme
 ├── constants.ts           # subjects, sort options, debounce, pagination caps
+├── types.ts               # all app types: API contract mirror, props, store state
 ├── utils/spine.ts         # deterministic spine colors for coverless books
 ├── api/books.ts           # typed fetch functions
-├── api/types.ts           # mirror of server API contract
 ├── hooks/useBooks.ts      # useQuery wrappers (list + detail)
 ├── store/filtersStore.ts  # Zustand: query, subject, sort, page
 └── components/

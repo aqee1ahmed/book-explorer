@@ -1,16 +1,5 @@
 import { create } from 'zustand'
-import type { SortOption } from '../api/types'
-
-interface FiltersState {
-  query: string
-  subject: string
-  sort: SortOption
-  page: number
-  setQuery: (query: string) => void
-  setSubject: (subject: string) => void
-  setSort: (sort: SortOption) => void
-  setPage: (page: number) => void
-}
+import type { FiltersState } from '../types'
 
 export const useFiltersStore = create<FiltersState>()((set) => ({
   query: '',

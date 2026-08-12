@@ -1,13 +1,4 @@
-interface CacheEntry<T> {
-  value: T
-  expiresAt: number
-}
-
-export interface TtlCache<T> {
-  get: (key: string) => T | undefined
-  set: (key: string, value: T) => void
-  clear: () => void
-}
+import type { CacheEntry, TtlCache } from '../types'
 
 export function createTtlCache<T>(ttlMs: number): TtlCache<T> {
   const entries = new Map<string, CacheEntry<T>>()

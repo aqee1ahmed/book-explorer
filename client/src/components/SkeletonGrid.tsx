@@ -2,10 +2,7 @@ import Grid from '@mui/material/Grid'
 import Skeleton from '@mui/material/Skeleton'
 import Stack from '@mui/material/Stack'
 import { SKELETON_COUNT } from '../constants'
-
-interface SkeletonGridProps {
-  count?: number
-}
+import type { SkeletonGridProps } from '../types'
 
 export function SkeletonGrid({ count = SKELETON_COUNT }: SkeletonGridProps) {
   return (

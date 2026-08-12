@@ -2,12 +2,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-
-interface StatusMessageProps {
-  title: string
-  detail: string
-  onRetry?: () => void
-}
+import type { StatusMessageProps } from '../types'
 
 export function StatusMessage({ title, detail, onRetry }: StatusMessageProps) {
   return (

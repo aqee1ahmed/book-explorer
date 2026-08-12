@@ -6,7 +6,7 @@ vi.mock('./api/books')
 
 import App from './App'
 import { fetchBooks } from './api/books'
-import type { Book } from './api/types'
+import type { Book } from './types'
 import { useFiltersStore } from './store/filtersStore'
 
 const initialState = useFiltersStore.getState()

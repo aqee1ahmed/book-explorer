@@ -1,11 +1,4 @@
-import type { BookDetail, BookListResponse, SortOption } from './types'
-
-export interface BookListParams {
-  query: string
-  subject: string
-  sort: SortOption
-  page: number
-}
+import type { BookDetail, BookListParams, BookListResponse } from '../types'
 
 export async function fetchBooks(params: BookListParams): Promise<BookListResponse> {
   const search = new URLSearchParams({ sort: params.sort, page: String(params.page) })
