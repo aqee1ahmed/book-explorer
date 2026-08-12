@@ -98,7 +98,17 @@ export default function App() {
           <StatusMessage title="No books found" detail="Try a different search term or subject." />
         ) : (
           <Stack spacing={3} sx={{ opacity: isPlaceholderData ? 0.6 : 1 }}>
-            <BookGrid books={data.books} onSelect={setSelectedBook} />
+            <Stack spacing={1.25}>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{ letterSpacing: '0.08em', textTransform: 'uppercase' }}
+              >
+                {data.totalResults.toLocaleString()} {data.totalResults === 1 ? 'result' : 'results'} · page{' '}
+                {data.page} of {Math.min(data.totalPages, MAX_PAGES).toLocaleString()}
+              </Typography>
+              <BookGrid books={data.books} onSelect={setSelectedBook} />
+            </Stack>
             <Pagination
               count={Math.min(data.totalPages, MAX_PAGES)}
               page={page}

@@ -56,8 +56,10 @@ Type is Fraunces for display (the wordmark sets the variable font's WONK
 axis), IBM Plex Sans for UI, and IBM Plex Mono as the metadata voice —
 captions, chips, and pagination. Books without cover art render a generated
 flat-color "spine": a deterministic palette pick hashed from the title, set in
-the display serif, so missing data looks deliberate rather than broken. The
-full design spec lives in [docs/DESIGN.md](docs/DESIGN.md).
+the display serif, so missing data looks deliberate rather than broken. Cover
+images lazy-load behind a shimmer and fall back to the same spine when the
+upstream image 404s. The full design spec lives in
+[docs/DESIGN.md](docs/DESIGN.md).
 
 ## Key decisions
 

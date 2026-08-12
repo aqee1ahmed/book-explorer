@@ -31,6 +31,9 @@ export function SearchBar() {
     <TextField
       value={value}
       onChange={(event) => setValue(event.target.value)}
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && value) clear()
+      }}
       placeholder="Search books by title or author"
       size="small"
       fullWidth

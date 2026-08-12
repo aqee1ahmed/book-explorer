@@ -123,6 +123,7 @@ client/src/
     ├── SubjectChips.tsx   # category filter chips
     ├── SortSelect.tsx
     ├── BookGrid.tsx       # responsive grid, 2-col mobile → 5-col desktop
+    ├── BookCover.tsx      # shimmer while loading, lazy images, spine fallback on 404
     ├── BookCard.tsx       # cover, title, authors, MUI Rating or "No ratings yet"
     ├── BookDetailDialog.tsx # fetches work detail; basics passed from card
     ├── SkeletonGrid.tsx   # loading state
