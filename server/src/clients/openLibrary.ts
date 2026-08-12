@@ -1,7 +1,7 @@
 import { config } from '../config'
 import { COVERS_URL, DEFAULT_SUBJECT, PAGE_SIZE, SEARCH_FIELDS } from '../constants'
-import { fetchJson } from '../lib/http'
-import { cleanDescription, cleanSubjects } from '../lib/sanitize'
+import { fetchJson } from '../utils/http'
+import { cleanDescription, cleanSubjects } from '../utils/sanitize'
 import type {
   BookDetail,
   BookQuery,

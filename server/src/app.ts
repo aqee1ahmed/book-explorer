@@ -1,7 +1,8 @@
 import express from 'express'
 import type { NextFunction, Request, Response } from 'express'
-import { UpstreamError } from './lib/http'
-import { booksRouter, errorBody } from './routes/books'
+import { booksRouter } from './routes/books'
+import { UpstreamError } from './utils/http'
+import { errorBody } from './utils/responses'
 
 export function createApp() {
   const app = express()

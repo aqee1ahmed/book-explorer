@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('../src/lib/http', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('../src/lib/http')>()),
+vi.mock('../src/utils/http', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../src/utils/http')>()),
   fetchJson: vi.fn(),
 }))
 
-import { fetchJson } from '../src/lib/http'
+import { fetchJson } from '../src/utils/http'
 import { getWorkDetail, searchBooks } from '../src/clients/openLibrary'
 
 const fetchJsonMock = vi.mocked(fetchJson)

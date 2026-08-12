@@ -83,10 +83,11 @@ server/src/
 ├── services/bookService.ts# orchestration: fetch, enrich, merge, sort, paginate
 ├── clients/openLibrary.ts # OL search + work detail, response mapping
 ├── clients/googleBooks.ts # volume lookup by ISBN, fallback title+author
-├── lib/cache.ts           # in-memory TTL cache factory (closure-based, no dependency)
-├── lib/http.ts            # fetchJson with timeout, identified User-Agent + UpstreamError
-├── lib/sanitize.ts        # scrub markdown/spam from descriptions, normalize subjects
-├── lib/concurrency.ts     # order-preserving bounded mapper
+├── utils/cache.ts         # in-memory TTL cache factory (closure-based, no dependency)
+├── utils/http.ts          # fetchJson with timeout, identified User-Agent + UpstreamError
+├── utils/sanitize.ts      # scrub markdown/spam from descriptions, normalize subjects
+├── utils/concurrency.ts   # order-preserving bounded mapper
+├── utils/responses.ts     # typed ApiError body helper
 └── types.ts               # all server types: contract, upstream shapes, cache
 ```
 

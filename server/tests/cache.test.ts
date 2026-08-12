@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createTtlCache } from '../src/lib/cache'
+import { createTtlCache } from '../src/utils/cache'
 
 describe('createTtlCache', () => {
   beforeEach(() => {

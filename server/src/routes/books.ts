@@ -1,13 +1,10 @@
 import { Router } from 'express'
 import { getBookDetail, getBooks } from '../services/bookService'
 import type { SortOption } from '../types'
+import { errorBody } from '../utils/responses'
 
 const SORT_OPTIONS: SortOption[] = ['relevance', 'rating', 'new']
 const WORK_ID_PATTERN = /^OL\d+W$/
-
-export function errorBody(message: string, code: string) {
-  return { error: { message, code } }
-}
 
 export const booksRouter = Router()
 

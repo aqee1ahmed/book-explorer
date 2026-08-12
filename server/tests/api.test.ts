@@ -7,7 +7,7 @@ vi.mock('../src/clients/googleBooks')
 import { getWorkDetail, searchBooks } from '../src/clients/openLibrary'
 import { getRating } from '../src/clients/googleBooks'
 import { resetCaches } from '../src/services/bookService'
-import { UpstreamError } from '../src/lib/http'
+import { UpstreamError } from '../src/utils/http'
 import { createApp } from '../src/app'
 
 const searchBooksMock = vi.mocked(searchBooks)

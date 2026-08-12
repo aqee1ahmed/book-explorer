@@ -46,6 +46,13 @@ export interface BookQuery {
   page: number
 }
 
+export interface ApiError {
+  error: {
+    message: string
+    code: string
+  }
+}
+
 export interface OpenLibrarySearchDoc {
   key?: string
   title?: string

@@ -1,8 +1,8 @@
 import { getRating } from '../clients/googleBooks'
 import { getWorkDetail, searchBooks } from '../clients/openLibrary'
 import { DETAIL_CACHE_TTL_MS, ENRICHMENT_CONCURRENCY, LIST_CACHE_TTL_MS, PAGE_SIZE } from '../constants'
-import { createTtlCache } from '../lib/cache'
-import { mapWithConcurrency } from '../lib/concurrency'
+import { createTtlCache } from '../utils/cache'
+import { mapWithConcurrency } from '../utils/concurrency'
 import type { Book, BookDetail, BookListResponse, BookQuery, SearchResultBook } from '../types'
 
 const listCache = createTtlCache<BookListResponse>(LIST_CACHE_TTL_MS)

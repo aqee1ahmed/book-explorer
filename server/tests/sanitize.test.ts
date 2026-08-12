@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { cleanDescription, cleanSubjects } from '../src/lib/sanitize'
+import { cleanDescription, cleanSubjects } from '../src/utils/sanitize'
 
 describe('cleanDescription', () => {
   it('drops markdown heading lines including spam links', () => {

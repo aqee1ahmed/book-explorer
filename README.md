@@ -49,6 +49,28 @@ minutes. **Frontend** — TanStack Query owns all server data (caching, retries,
 previous-page placeholders); a single Zustand store owns the four pieces of
 filter state; components subscribe only to the slices they need.
 
+## Project structure
+
+```
+├── client/src
+│   ├── api/            typed fetch layer for the backend contract
+│   ├── components/     presentational components (cards, grid, dialog, states)
+│   ├── hooks/          TanStack Query wrappers
+│   ├── store/          Zustand filters store
+│   ├── utils/          spine color generator
+│   ├── constants.ts    subjects, sort options, UI tuning values
+│   ├── theme.ts        design tokens and MUI theme
+│   └── types.ts        all client types
+└── server/src
+    ├── clients/        Open Library and Google Books adapters
+    ├── routes/         HTTP concerns: validation, status codes
+    ├── services/       aggregation: fetch, enrich, merge, sort, cache
+    ├── utils/          cache, http, concurrency, sanitize, responses
+    ├── config.ts       env access in one place
+    ├── constants.ts    page size, TTLs, concurrency, timeouts
+    └── types.ts        all server types
+```
+
 ## Design
 
 Mid-century paperback. Aged-paper surfaces, a Pelican-teal title band with a

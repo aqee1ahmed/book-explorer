@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { fetchJson } from '../src/lib/http'
+import { fetchJson } from '../src/utils/http'
 
 describe('fetchJson', () => {
   afterEach(() => {

@@ -1,6 +1,6 @@
 import { config } from '../config'
 import { VOLUME_SCAN_LIMIT } from '../constants'
-import { fetchJson } from '../lib/http'
+import { fetchJson } from '../utils/http'
 import type { GoogleVolumesResponse, RatingInfo } from '../types'
 
 export async function getRating(isbn: string | null, title: string, author?: string): Promise<RatingInfo | null> {
