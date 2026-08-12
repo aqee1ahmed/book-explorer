@@ -94,7 +94,7 @@ server/src/
 
 1. Cache lookup keyed by normalized query string (TTL 10 min). Hit → return.
 2. Open Library search (`search.json`) — one call returns title, authors, year, cover id, ISBNs, total count. Upstream sort passed through for `rating`/`new`.
-3. Enrich each of the ~20 results with Google Books (`volumes?q=isbn:...`, fallback `intitle:+inauthor:`) via bounded-concurrency lookups (cap 5) with per-book failure isolation. Failures → `null` rating for that book only.
+3. Enrich each of the ~20 results with Google Books (`volumes?q=isbn:...`, fallback `intitle:+inauthor:`) via bounded-concurrency lookups (cap 5) with per-book failure isolation. Books Google cannot match fall back to Open Library's community rating (`ratings_average`/`ratings_count`, fetched in the same search response at no extra request cost), attributed via `ratingsSource: 'open-library'`. Only when both sources lack data → `null` rating for that book.
 4. Merge into the `Book` contract type; stable-sort page by displayed rating when `sort=rating` (nulls last).
 5. Cache and return.
 

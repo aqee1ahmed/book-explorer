@@ -115,6 +115,7 @@ export function BookDetailDialog({ book, onClose }: BookDetailDialogProps) {
                     <Typography variant="caption" color="text.secondary">
                       {book.averageRating.toFixed(1)}
                       {book.ratingsCount ? ` · ${book.ratingsCount.toLocaleString()} ratings` : ''}
+                      {book.ratingsSource ? ` · ${book.ratingsSource === 'google-books' ? 'Google Books' : 'Open Library'}` : ''}
                     </Typography>
                   </Stack>
                 ) : (

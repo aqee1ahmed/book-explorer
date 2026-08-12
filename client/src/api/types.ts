@@ -1,5 +1,7 @@
 export type SortOption = 'relevance' | 'rating' | 'new'
 
+export type RatingSource = 'google-books' | 'open-library'
+
 export interface Book {
   id: string
   title: string
@@ -9,7 +11,7 @@ export interface Book {
   isbn: string | null
   averageRating: number | null
   ratingsCount: number | null
-  ratingsSource: 'google-books' | null
+  ratingsSource: RatingSource | null
 }
 
 export interface BookDetail {

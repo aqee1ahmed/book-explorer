@@ -66,9 +66,12 @@ upstream image 404s. The full design spec lives in
 
 - **Server-side aggregation** keeps the frontend to one request per page and
   hides upstream quirks (ISBN matching, rating fallbacks) behind one contract.
-- **Graceful degradation**: if Google Books is slow, rate-limited, or down,
-  books still render — rating fields come back `null` and the UI says
-  "No ratings yet" rather than showing fake zeros or failing the page.
+- **Graceful degradation with a rating fallback**: Google Books is the primary
+  ratings source. When it has no match (or is slow, rate-limited, or down),
+  the book falls back to Open Library's community rating — which arrives free
+  in the same search response — and every rating is labeled with its source
+  (`ratingsSource: "google-books" | "open-library"`). Only when both sources
+  are empty does the UI say "No ratings yet"; it never shows fake zeros.
 - **In-memory TTL cache** (10 min list / 60 min detail) keeps repeat browsing
   fast and stays well inside Google Books' unauthenticated rate limits. A
   process-local Map is deliberate — no Redis for a single-instance assessment.

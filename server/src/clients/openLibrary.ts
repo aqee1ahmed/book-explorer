@@ -2,7 +2,7 @@ import { config } from '../config'
 import { COVERS_URL, DEFAULT_SUBJECT, PAGE_SIZE, SEARCH_FIELDS } from '../constants'
 import { fetchJson } from '../lib/http'
 import { cleanDescription, cleanSubjects } from '../lib/sanitize'
-import type { BaseBook, BookDetail, BookQuery, SortOption } from '../types'
+import type { BookDetail, BookQuery, RatingInfo, SearchResultBook, SortOption } from '../types'
 
 interface SearchDoc {
   key?: string
@@ -11,6 +11,8 @@ interface SearchDoc {
   first_publish_year?: number
   cover_i?: number
   isbn?: string[]
+  ratings_average?: number
+  ratings_count?: number
 }
 
 interface SearchResponse {
@@ -29,7 +31,7 @@ const SORT_PARAMS: Record<SortOption, string | undefined> = {
   new: 'new',
 }
 
-export async function searchBooks(query: BookQuery): Promise<{ books: BaseBook[]; totalResults: number }> {
+export async function searchBooks(query: BookQuery): Promise<{ books: SearchResultBook[]; totalResults: number }> {
   const params = new URLSearchParams({
     fields: SEARCH_FIELDS,
     limit: String(PAGE_SIZE),
@@ -42,7 +44,7 @@ export async function searchBooks(query: BookQuery): Promise<{ books: BaseBook[]
 
   const response = await fetchJson<SearchResponse>(`${config.openLibraryUrl}/search.json?${params}`)
   return {
-    books: response.docs.filter(isCompleteDoc).map(toBaseBook),
+    books: response.docs.filter(isCompleteDoc).map(toSearchResultBook),
     totalResults: response.numFound,
   }
 }
@@ -61,7 +63,7 @@ function isCompleteDoc(doc: SearchDoc): doc is SearchDoc & { key: string; title:
   return Boolean(doc.key && doc.title)
 }
 
-function toBaseBook(doc: SearchDoc & { key: string; title: string }): BaseBook {
+function toSearchResultBook(doc: SearchDoc & { key: string; title: string }): SearchResultBook {
   return {
     id: doc.key.replace('/works/', ''),
     title: doc.title,
@@ -69,6 +71,15 @@ function toBaseBook(doc: SearchDoc & { key: string; title: string }): BaseBook {
     firstPublishYear: doc.first_publish_year ?? null,
     coverUrl: doc.cover_i ? `${COVERS_URL}/${doc.cover_i}-M.jpg` : null,
     isbn: pickIsbn(doc.isbn),
+    openLibraryRating: toOpenLibraryRating(doc),
+  }
+}
+
+function toOpenLibraryRating(doc: SearchDoc): RatingInfo | null {
+  if (doc.ratings_average === undefined || !doc.ratings_count) return null
+  return {
+    averageRating: Math.round(doc.ratings_average * 100) / 100,
+    ratingsCount: doc.ratings_count,
   }
 }
 

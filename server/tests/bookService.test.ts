@@ -6,13 +6,13 @@ vi.mock('../src/clients/googleBooks')
 import { searchBooks, getWorkDetail } from '../src/clients/openLibrary'
 import { getRating } from '../src/clients/googleBooks'
 import { getBookDetail, getBooks, resetCaches } from '../src/services/bookService'
-import type { BaseBook } from '../src/types'
+import type { RatingInfo, SearchResultBook } from '../src/types'
 
 const searchBooksMock = vi.mocked(searchBooks)
 const getWorkDetailMock = vi.mocked(getWorkDetail)
 const getRatingMock = vi.mocked(getRating)
 
-function baseBook(id: string, title: string): BaseBook {
+function baseBook(id: string, title: string, openLibraryRating: RatingInfo | null = null): SearchResultBook {
   return {
     id,
     title,
@@ -20,6 +20,7 @@ function baseBook(id: string, title: string): BaseBook {
     firstPublishYear: 2000,
     coverUrl: null,
     isbn: null,
+    openLibraryRating,
   }
 }
 
@@ -29,8 +30,11 @@ beforeEach(() => {
 })
 
 describe('getBooks', () => {
-  it('merges google ratings into open library books', async () => {
-    searchBooksMock.mockResolvedValue({ books: [baseBook('OL1W', 'Dune')], totalResults: 45 })
+  it('prefers google ratings over the open library fallback', async () => {
+    searchBooksMock.mockResolvedValue({
+      books: [baseBook('OL1W', 'Dune', { averageRating: 3.9, ratingsCount: 40 })],
+      totalResults: 45,
+    })
     getRatingMock.mockResolvedValue({ averageRating: 4.2, ratingsCount: 100 })
     const result = await getBooks({ q: 'dune', sort: 'relevance', page: 1 })
     expect(result.books[0]).toMatchObject({
@@ -39,10 +43,25 @@ describe('getBooks', () => {
       ratingsCount: 100,
       ratingsSource: 'google-books',
     })
+    expect(result.books[0]).not.toHaveProperty('openLibraryRating')
     expect(result).toMatchObject({ page: 1, pageSize: 20, totalResults: 45, totalPages: 3 })
   })
 
-  it('returns null rating fields when google has no data', async () => {
+  it('falls back to open library ratings when google has none', async () => {
+    searchBooksMock.mockResolvedValue({
+      books: [baseBook('OL1W', 'Dune', { averageRating: 4.31, ratingsCount: 441 })],
+      totalResults: 1,
+    })
+    getRatingMock.mockResolvedValue(null)
+    const result = await getBooks({ q: 'dune', sort: 'relevance', page: 1 })
+    expect(result.books[0]).toMatchObject({
+      averageRating: 4.31,
+      ratingsCount: 441,
+      ratingsSource: 'open-library',
+    })
+  })
+
+  it('returns null rating fields when neither source has data', async () => {
     searchBooksMock.mockResolvedValue({ books: [baseBook('OL1W', 'Dune')], totalResults: 1 })
     getRatingMock.mockResolvedValue(null)
     const result = await getBooks({ q: 'dune', sort: 'relevance', page: 1 })

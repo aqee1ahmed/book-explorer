@@ -26,6 +26,8 @@ describe('searchBooks', () => {
           first_publish_year: 1965,
           cover_i: 11481354,
           isbn: ['0441013597', '9780441013593'],
+          ratings_average: 4.3061223,
+          ratings_count: 441,
         },
         { title: 'Doc without key' },
       ],
@@ -40,6 +42,7 @@ describe('searchBooks', () => {
         firstPublishYear: 1965,
         coverUrl: 'https://covers.openlibrary.org/b/id/11481354-M.jpg',
         isbn: '9780441013593',
+        openLibraryRating: { averageRating: 4.31, ratingsCount: 441 },
       },
     ])
   })
@@ -57,6 +60,7 @@ describe('searchBooks', () => {
       firstPublishYear: null,
       coverUrl: null,
       isbn: null,
+      openLibraryRating: null,
     })
   })
 

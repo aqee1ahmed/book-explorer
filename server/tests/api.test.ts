@@ -39,6 +39,7 @@ describe('GET /api/books', () => {
           firstPublishYear: 1965,
           coverUrl: null,
           isbn: '9780441013593',
+          openLibraryRating: null,
         },
       ],
       totalResults: 1,
@@ -52,7 +53,15 @@ describe('GET /api/books', () => {
   it('degrades to null ratings when google books is unavailable', async () => {
     searchBooksMock.mockResolvedValue({
       books: [
-        { id: 'OL1W', title: 'Dune', authors: [], firstPublishYear: null, coverUrl: null, isbn: null },
+        {
+          id: 'OL1W',
+          title: 'Dune',
+          authors: [],
+          firstPublishYear: null,
+          coverUrl: null,
+          isbn: null,
+          openLibraryRating: null,
+        },
       ],
       totalResults: 1,
     })

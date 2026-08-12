@@ -5,5 +5,5 @@ export const ENRICHMENT_CONCURRENCY = 5
 export const UPSTREAM_TIMEOUT_MS = 8_000
 export const DEFAULT_SUBJECT = 'fiction'
 export const COVERS_URL = 'https://covers.openlibrary.org/b/id'
-export const SEARCH_FIELDS = 'key,title,author_name,first_publish_year,cover_i,isbn'
+export const SEARCH_FIELDS = 'key,title,author_name,first_publish_year,cover_i,isbn,ratings_average,ratings_count'
 export const VOLUME_SCAN_LIMIT = 5

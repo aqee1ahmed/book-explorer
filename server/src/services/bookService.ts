@@ -3,7 +3,7 @@ import { getWorkDetail, searchBooks } from '../clients/openLibrary'
 import { DETAIL_CACHE_TTL_MS, ENRICHMENT_CONCURRENCY, LIST_CACHE_TTL_MS, PAGE_SIZE } from '../constants'
 import { createTtlCache } from '../lib/cache'
 import { mapWithConcurrency } from '../lib/concurrency'
-import type { BaseBook, Book, BookDetail, BookListResponse, BookQuery } from '../types'
+import type { Book, BookDetail, BookListResponse, BookQuery, SearchResultBook } from '../types'
 
 const listCache = createTtlCache<BookListResponse>(LIST_CACHE_TTL_MS)
 const detailCache = createTtlCache<BookDetail>(DETAIL_CACHE_TTL_MS)
@@ -41,13 +41,15 @@ export function resetCaches(): void {
   detailCache.clear()
 }
 
-async function enrichWithRating(book: BaseBook): Promise<Book> {
-  const rating = await getRating(book.isbn, book.title, book.authors[0]).catch(() => null)
+async function enrichWithRating(book: SearchResultBook): Promise<Book> {
+  const googleRating = await getRating(book.isbn, book.title, book.authors[0]).catch(() => null)
+  const { openLibraryRating, ...base } = book
+  const rating = googleRating ?? openLibraryRating
   return {
-    ...book,
+    ...base,
     averageRating: rating?.averageRating ?? null,
     ratingsCount: rating?.ratingsCount ?? null,
-    ratingsSource: rating ? 'google-books' : null,
+    ratingsSource: googleRating ? 'google-books' : openLibraryRating ? 'open-library' : null,
   }
 }
 
