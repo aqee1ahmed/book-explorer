@@ -1,3 +1,4 @@
+import { config } from '../config'
 import { UPSTREAM_TIMEOUT_MS } from '../constants'
 
 export class UpstreamError extends Error {
@@ -14,7 +15,10 @@ export async function fetchJson<T>(url: string, timeoutMs = UPSTREAM_TIMEOUT_MS)
   const host = new URL(url).host
   let response: Response
   try {
-    response = await fetch(url, { signal: AbortSignal.timeout(timeoutMs) })
+    response = await fetch(url, {
+      signal: AbortSignal.timeout(timeoutMs),
+      headers: { 'User-Agent': config.userAgent, Accept: 'application/json' },
+    })
   } catch {
     throw new UpstreamError(`Request to ${host} failed`)
   }

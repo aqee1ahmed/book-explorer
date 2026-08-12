@@ -1,6 +1,7 @@
 import { config } from '../config'
 import { COVERS_URL, DEFAULT_SUBJECT, PAGE_SIZE, SEARCH_FIELDS } from '../constants'
 import { fetchJson } from '../lib/http'
+import { cleanDescription, cleanSubjects } from '../lib/sanitize'
 import type { BaseBook, BookDetail, BookQuery, SortOption } from '../types'
 
 interface SearchDoc {
@@ -48,10 +49,11 @@ export async function searchBooks(query: BookQuery): Promise<{ books: BaseBook[]
 
 export async function getWorkDetail(workId: string): Promise<BookDetail> {
   const work = await fetchJson<WorkResponse>(`${config.openLibraryUrl}/works/${workId}.json`)
+  const rawDescription = typeof work.description === 'string' ? work.description : (work.description?.value ?? null)
   return {
     id: workId,
-    description: typeof work.description === 'string' ? work.description : (work.description?.value ?? null),
-    subjects: work.subjects ?? [],
+    description: cleanDescription(rawDescription),
+    subjects: cleanSubjects(work.subjects ?? []),
   }
 }
 

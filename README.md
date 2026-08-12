@@ -26,7 +26,8 @@ npm run typecheck
 
 No environment variables are required; `.env.example` documents the supported
 overrides. `GOOGLE_BOOKS_API_KEY` is optionally picked up to raise Google
-Books rate limits.
+Books rate limits, and `API_USER_AGENT` sets the contact-identified
+`User-Agent` that Open Library rewards with a higher rate limit.
 
 ## Architecture
 

@@ -84,7 +84,8 @@ server/src/
 ├── clients/openLibrary.ts # OL search + work detail, response mapping
 ├── clients/googleBooks.ts # volume lookup by ISBN, fallback title+author
 ├── lib/cache.ts           # in-memory TTL cache factory (closure-based, no dependency)
-├── lib/http.ts            # fetchJson with timeout + UpstreamError
+├── lib/http.ts            # fetchJson with timeout, identified User-Agent + UpstreamError
+├── lib/sanitize.ts        # scrub markdown/spam from descriptions, normalize subjects
 ├── lib/concurrency.ts     # order-preserving bounded mapper
 └── types.ts               # API contract types
 ```
